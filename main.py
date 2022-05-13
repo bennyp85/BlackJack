@@ -5,7 +5,7 @@ class Game:
     self.playerScore = playerScore
     self.dealerScore = dealerScore
 
-  def WhoWon(self):
+  def WhoWon(self, cardCount):
     if(self.playerScore > 21):
       return "Dealer Won"
     if(self.playerScore <= 21 and self.playerScore > self.dealerScore):
@@ -14,10 +14,13 @@ class Game:
       return "Player Won"
     if(self.dealerScore <= 21 and self.playerScore < self.dealerScore):
       return "Dealer Won"
+    if(cardCount > 4):
+      return "Player Won"
       
 class Player:
-  def __init__(self, score = 0):
+  def __init__(self, score = 0, cardCount=0):
     self.score = score
+    self.cardCount = cardCount
 
   def PlayerScore(self):
     pass
@@ -26,6 +29,7 @@ class Player:
     pass
 
   def SetScore(self, deck, score):
+    self.cardCount += 1
     card = deck.GetCard()
     self.score += card
     return self.score
@@ -138,4 +142,4 @@ while dealer.score < 17:
     break
 
 game = Game(pScore, dScore)
-print(game.WhoWon())
+print(game.WhoWon(player.cardCount))
