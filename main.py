@@ -6,40 +6,40 @@ class Game:
     self.dealerScore = dealerScore
 
   def WhoWon(self):
-    if self.playerScore > self.dealerScore and self.playerScore <= 21:
+    if self.playerScore > self.dealerScore and self.playerScore <= 21 and self.dealerScore <= 21:
       return "Player Won"
     else:
       return "Dealer Won"
 
 class Player:
-  def __init__(self, score=None):
+  def __init__(self, score = 0):
     self.score = score
 
   def PlayerScore(self):
-    score = input("Player Card Count: ")
-    return int(score)
+    pass
 
   def GetScore(self):
     pass
 
-  def SetScore(self, deck):
-    self.score = deck.GetCard()
-    return self.score[1]
+  def SetScore(self, deck, score):
+    card = deck.GetCard()
+    self.score += card
+    return self.score
     
 class Dealer:
-  def __init__(self, score=None):
+  def __init__(self, score = 0):
     self.score = score
 
   def DealerScore(self):
-    score = input("Dealer Card Count: ")
-    return int(score)
+    pass
 
   def GetScore(self):
     pass
 
-  def SetScore(self, deck):
-    self.score = deck.GetCard()
-    return self.score[1]
+  def SetScore(self, deck, score):
+    card = deck.GetCard()
+    self.score += card
+    return self.score
 
 class Deck:
   cards = {
@@ -96,17 +96,37 @@ class Deck:
   def GetCard(self):
     card = random.choice(list(Deck.cards.items()))
     Deck.cards.pop(card[0])
-    return card
-    
+    return int(card[1])
+
 deck = Deck()
 
 player = Player()
-pScore = player.SetScore(deck)
+pScore = player.SetScore(deck, player.score)
+pScore = player.SetScore(deck, player.score)
 print("Player Card: " + str(pScore))
 
 dealer = Dealer()
-dScore = dealer.SetScore(deck)
+dScore = dealer.SetScore(deck, dealer.score)
+dScore = dealer.SetScore(deck, player.score)
 print("Dealer Card: " + str(dScore))
+    
+while player.score < 21:
+  anotherCard = input("More cards for player(y/n)? ")
+  if anotherCard == "y":
+    pScore = player.SetScore(deck, player.score)
+    print("Player Card: " + str(pScore))
+    print("Dealer Card: " + str(dScore))
+  else:
+    break
+
+while dealer.score < 17:
+  anotherCard = input("More cards delaer(y/n)? ")
+  if anotherCard == "y":
+    dScore = dealer.SetScore(deck, dealer.score)
+    print("Player Card: " + str(pScore))
+    print("Dealer Card: " + str(dScore))
+  else:
+    break
 
 game = Game(pScore, dScore)
 print(game.WhoWon())
