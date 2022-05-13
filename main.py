@@ -6,11 +6,15 @@ class Game:
     self.dealerScore = dealerScore
 
   def WhoWon(self):
-    if self.playerScore > self.dealerScore and self.playerScore <= 21 and self.dealerScore <= 21:
-      return "Player Won"
-    else:
+    if(self.playerScore > 21):
       return "Dealer Won"
-
+    if(self.playerScore <= 21 and self.playerScore > self.dealerScore):
+      return "Player Won"
+    if(self.playerScore <= 21 and self.dealerScore > 21):
+      return "Player Won"
+    if(self.dealerScore <= 21 and self.playerScore < self.dealerScore):
+      return "Dealer Won"
+      
 class Player:
   def __init__(self, score = 0):
     self.score = score
@@ -95,6 +99,7 @@ class Deck:
 
   def GetCard(self):
     card = random.choice(list(Deck.cards.items()))
+    print(card)
     Deck.cards.pop(card[0])
     return int(card[1])
 
@@ -118,6 +123,7 @@ while player.score < 21:
     print("Dealer Card: " + str(dScore))
   else:
     break
+
 
 while dealer.score < 17:
   anotherCard = input("More cards delaer(y/n)? ")
