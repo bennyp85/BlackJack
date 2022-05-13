@@ -100,6 +100,9 @@ class Deck:
   def GetCard(self):
     card = random.choice(list(Deck.cards.items()))
     print(card)
+    if card[0] == "AceH" or card[0] == "AceD" or card[0] == "AceS" or card[0] == "AceC":
+      aceChoice = input("Ace - 1 or 11: ")
+      return int(aceChoice)
     Deck.cards.pop(card[0])
     return int(card[1])
 
